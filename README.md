@@ -2,7 +2,7 @@
   <img src="https://i.ibb.co/fzkXJGPp/x.jpg" alt="JATT-FILTER-BOT">
 </p>
 <h1 align="center">
-  VJ FILTER BOT
+  JATT-FILTER-BOT
 </h1>
 
 ![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=Welcome+To+JATT+Filter+Bot!)
