@@ -27,7 +27,7 @@ async def premium_reminder():
                                 [
                                     InlineKeyboardButton(
                                         "💎 Contact Admin",
-                                        url="https://t.me/@Chat_With_Proffessor_bot"
+                                        url="https://t.me/Chat_With_Proffessor_bot"
                                     )
                                 ]
                             ]
@@ -62,7 +62,7 @@ async def premium_reminder():
                                 [
                                     InlineKeyboardButton(
                                         "💎 Contact Admin",
-                                        url="https://t.me/@Chat_With_Proffessor_bot"
+                                        url="https://t.me/Chat_With_Proffessor_bot"
                                     )
                                 ]
                             ]
