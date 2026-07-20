@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.ibb.co/fzkXJGPp/x.jpg" alt="VJ-Filter-Bot Logo">
+  <img src="https://i.ibb.co/fzkXJGPp/x.jpg" alt="JATT-FILTER-BOT">
 </p>
 <h1 align="center">
   VJ FILTER BOT
