@@ -17,17 +17,17 @@ async def premium_reminder():
                     await TechVJBot.send_message(
                         chat_id=user["id"],
                         text=(
-                            f"⚠️ **𝙋𝙍𝙀𝙈𝙄𝙐𝙈 𝙀𝙓𝙋𝙄𝙍𝙔 𝙍𝙀𝙈𝙄𝙉𝘿𝙀𝙍** ⚠️\n\n"
-                            f"**𝙃𝙚𝙮 👋 {user.get('name', 'User')},**\n\n"
-                            "**ʏᴏᴜʀ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴ ɪꜱ ɢᴏɪɴɢ ᴛᴏ ᴇxᴘɪʀᴇ ɪɴ 𝟯 ᴅᴀʏꜱ. ʀᴇɴᴇᴡ ꜱᴏᴏɴ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ ᴇɴᴊᴏʏɪɴɢ ᴀʟʟ ᴘʀᴇᴍɪᴜᴍ ꜰᴇᴀᴛᴜʀᴇꜱ.**\n\n"
-                            "**📌 𝘾𝙡𝙞𝙘𝙠 /plan 𝙁𝙤𝙧 𝙋𝙧𝙞𝙘𝙚𝙨.**"
+                            f"⚠️ 𝙋𝙍𝙀𝙈𝙄𝙐𝙈 𝙀𝙓𝙋𝙄𝙍𝙔 𝙍𝙀𝙈𝙄𝙉𝘿𝙀𝙍 ⚠️\n\n"
+                            f"𝙃𝙚𝙮 👋 {user.get('name', 'User')},\n\n"
+                            "ʏᴏᴜʀ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴ ɪꜱ ɢᴏɪɴɢ ᴛᴏ ᴇxᴘɪʀᴇ ɪɴ 𝟯 ᴅᴀʏꜱ. ʀᴇɴᴇᴡ ꜱᴏᴏɴ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ ᴇɴᴊᴏʏɪɴɢ ᴀʟʟ ᴘʀᴇᴍɪᴜᴍ ꜰᴇᴀᴛᴜʀᴇꜱ..\n\n"
+                            "📌 𝘾𝙡𝙞𝙘𝙠 /plan 𝙁𝙤𝙧 𝙋𝙧𝙞𝙘𝙚𝙨.."
                         ),
                         reply_markup=InlineKeyboardMarkup(
                             [
                                 [
                                     InlineKeyboardButton(
                                         "💎 Contact Admin",
-                                        url="https://t.me/YOUR_USERNAME"
+                                        url="https://t.me/@Chat_With_Proffessor_bot"
                                     )
                                 ]
                             ]
@@ -52,17 +52,17 @@ async def premium_reminder():
                     await TechVJBot.send_message(
                         chat_id=user["id"],
                         text=(
-                            f"❌ **𝙋𝙍𝙀𝙈𝙄𝙐𝙈 𝙀𝙓𝙋𝙄𝙍𝙀𝘿** ❌\n\n"
-                            f"**𝙃𝙚𝙮 👋 {user.get('name', 'User')},**\n\n"
-                            "**ʏᴏᴜʀ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴ ʜᴀꜱ ᴇxᴘɪʀᴇᴅ. ʀᴇɴᴇᴡ ɴᴏᴡ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ ᴇɴᴊᴏʏɪɴɢ ᴀʟʟ ᴘʀᴇᴍɪᴜᴍ ꜰᴇᴀᴛᴜʀᴇꜱ.**\n\n"
-                            "**📌 𝘾𝙡𝙞𝙘𝙠 /plan 𝙁𝙤𝙧 𝙋𝙧𝙞𝙘𝙚𝙨.**"
+                            f"❌ 𝙋𝙍𝙀𝙈𝙄𝙐𝙈 𝙀𝙓𝙋𝙄𝙍𝙀𝘿 ❌\n\n"
+                            f"𝙃𝙚𝙮 👋 {user.get('name', 'User')},\n\n"
+                            "ʏᴏᴜʀ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴ ʜᴀꜱ ᴇxᴘɪʀᴇᴅ. ʀᴇɴᴇᴡ ɴᴏᴡ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ ᴇɴᴊᴏʏɪɴɢ ᴀʟʟ ᴘʀᴇᴍɪᴜᴍ ꜰᴇᴀᴛᴜʀᴇꜱ..\n\n"
+                            "📌 𝘾𝙡𝙞𝙘𝙠 /plan 𝙁𝙤𝙧 𝙋𝙧𝙞𝙘𝙚𝙨"
                         ),
                         reply_markup=InlineKeyboardMarkup(
                             [
                                 [
                                     InlineKeyboardButton(
                                         "💎 Contact Admin",
-                                        url="https://t.me/YOUR_USERNAME"
+                                        url="https://t.me/@Chat_With_Proffessor_bot"
                                     )
                                 ]
                             ]
