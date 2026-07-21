@@ -318,7 +318,7 @@ async def start(client, message):
                 [
                   InlineKeyboardButton(
                      "📰 Updates",
-                     url="https://t.me/movie_update_channels"
+                     url="https://t.me/+R4ENabkP2XllNzM9"
                   ),
                   InlineKeyboardButton(
                      "🔞 Viral Videos",
@@ -409,7 +409,7 @@ async def start(client, message):
                 [
                   InlineKeyboardButton(
                      "📰 Updates",
-                     url="https://t.me/movie_update_channels"
+                     url="https://t.me/+R4ENabkP2XllNzM9"
                   ),
                   InlineKeyboardButton(
                      "🔞 Viral Videos",
@@ -540,7 +540,7 @@ async def start(client, message):
                 [
                   InlineKeyboardButton(
                      "📰 Updates",
-                     url="https://t.me/movie_update_channels"
+                     url="https://t.me/+R4ENabkP2XllNzM9"
                   ),
                   InlineKeyboardButton(
                      "🔞 Viral Videos",
@@ -651,7 +651,7 @@ async def start(client, message):
                 [
                   InlineKeyboardButton(
                      "📰 Updates",
-                     url="https://t.me/movie_update_channels"
+                     url="https://t.me/+R4ENabkP2XllNzM9"
                   ),
                   InlineKeyboardButton(
                      "🔞 Viral Videos",
@@ -721,7 +721,7 @@ async def start(client, message):
                 [
                   InlineKeyboardButton(
                      "📰 Updates",
-                     url="https://t.me/movie_update_channels"
+                     url="https://t.me/+R4ENabkP2XllNzM9"
                   ),
                   InlineKeyboardButton(
                      "🔞 Viral Videos",
