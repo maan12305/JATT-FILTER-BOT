@@ -115,7 +115,7 @@ USE_CAPTION_FILTER = bool(environ.get('USE_CAPTION_FILTER', True))
 
 
 # Token Verification Info :
-VERIFY = bool(environ.get('VERIFY', False))
+VERIFY = bool(environ.get('VERIFY', True))
 VERIFY_SHORTLINK_URL = environ.get('VERIFY_SHORTLINK_URL', 'instantlinks.co')
 VERIFY_SHORTLINK_API = environ.get('VERIFY_SHORTLINK_API', '0b7e5705bdfbc9be5ee531acb06546edc59911c8')
 VERIFY_TUTORIAL = environ.get('VERIFY_TUTORIAL', 'https://t.me/movie_update_channels')
