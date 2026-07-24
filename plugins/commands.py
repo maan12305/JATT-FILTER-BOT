@@ -1,6 +1,7 @@
 # Don't Remove Credit @VJ_Bots
 # Subscribe YouTube Channel For Amazing Bot @Tech_VJ
 # Ask Doubt on telegram @KingVJ01
+from utils import get_size, format_filename
 import binascii
 from plugins.pm_filter import auto_filter
 import os, string, logging, random, asyncio, time, datetime, re, sys, json, base64
@@ -499,7 +500,13 @@ async def start(client, message):
             f_caption=files1["caption"]
             if CUSTOM_FILE_CAPTION:
                 try:
-                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
+                    pretty_name = format_filename(title)
+
+                    f_caption = CUSTOM_FILE_CAPTION.format(
+                        file_name=pretty_name,
+                        file_size='' if size is None else size,
+                        file_caption='' if f_caption is None else f_caption
+                        )
                 except:
                     f_caption=f_caption
             if f_caption is None:
