@@ -19,6 +19,45 @@ from database.join_reqs import JoinReqs
 from bs4 import BeautifulSoup
 from shortzy import Shortzy
 
+def format_filename(name):
+    if not name:
+        return ""
+
+    season = re.search(r'S(\d{1,2})', name, re.I)
+    episode = re.search(r'E(\d{1,2})', name, re.I)
+    quality = re.search(r'(2160p|1080p|720p|480p)', name, re.I)
+
+    languages = []
+
+    for lang in ["Hindi", "English", "Tamil", "Telugu", "Japanese"]:
+        if re.search(lang, name, re.I):
+            languages.append(lang)
+
+    title = re.sub(
+        r'S\d{1,2}E\d{1,2}.*',
+        '',
+        name,
+        flags=re.I
+    )
+
+    title = title.replace(".", " ").replace("_", " ").strip()
+
+    caption = f"🎬 {title}\n\n"
+
+    if season:
+        caption += f"📺 Season : {season.group(1)}\n"
+
+    if episode:
+        caption += f"🎞 Episode : {episode.group(1)}\n"
+
+    if quality:
+        caption += f"🎥 Quality : {quality.group()}\n"
+
+    if languages:
+        caption += f"🌍 Languages : {' • '.join(languages)}\n"
+
+    return caption
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 join_db = JoinReqs
@@ -643,11 +682,13 @@ async def send_all(bot, userid, files, ident, chat_id, user_name, query):
             for file in files:
                 f_caption = file["caption"]
                 title = file["file_name"]
-                size = get_size(file["file_size"])
-                if CUSTOM_FILE_CAPTION:
+             size = get_size(file["file_size"])
+             pretty_name = format_filename(title)
+
+            if CUSTOM_FILE_CAPTION:
                     try:
                         f_caption = CUSTOM_FILE_CAPTION.format(
-                            file_name='' if title is None else title,
+                            file_name=pretty_name,
                             file_size='' if size is None else size,
                             file_caption='' if f_caption is None else f_caption
                         )
