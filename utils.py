@@ -23,26 +23,40 @@ def format_filename(name):
     if not name:
         return ""
 
+    import re
+
+    title = name
+
+    year = re.search(r'\b(19|20)\d{2}\b', name)
     season = re.search(r'S(\d{1,2})', name, re.I)
     episode = re.search(r'E(\d{1,2})', name, re.I)
-    quality = re.search(r'(2160p|1080p|720p|480p)', name, re.I)
+    quality = re.search(r'(2160p|1440p|1080p|720p|480p|360p)', name, re.I)
 
     languages = []
 
-    for lang in ["Hindi", "English", "Tamil", "Telugu", "Japanese"]:
+    for lang in [
+        "Hindi", "English", "Tamil", "Telugu",
+        "Malayalam", "Kannada", "Japanese",
+        "Korean", "Dual Audio", "Multi Audio"
+    ]:
         if re.search(lang, name, re.I):
             languages.append(lang)
 
     title = re.sub(
-        r'S\d{1,2}E\d{1,2}.*',
+        r'\b(19|20)\d{2}\b.*',
         '',
-        name,
+        title,
         flags=re.I
     )
 
-    title = title.replace(".", " ").replace("_", " ").strip()
+    title = title.replace(".", " ")
+    title = title.replace("_", " ")
+    title = title.strip()
 
     caption = f"🎬 {title}\n\n"
+
+    if year:
+        caption += f"📅 Year : {year.group()}\n"
 
     if season:
         caption += f"📺 Season : {season.group(1)}\n"
@@ -54,7 +68,7 @@ def format_filename(name):
         caption += f"🎥 Quality : {quality.group()}\n"
 
     if languages:
-        caption += f"🌍 Languages : {' • '.join(languages)}\n"
+        caption += f"🌍 Language : {' • '.join(languages)}\n"
 
     return caption
 
