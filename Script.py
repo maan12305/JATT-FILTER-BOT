@@ -244,9 +244,13 @@ Nᴀᴍᴇ - {}"""
 
 𝗠𝗲𝘀𝘀𝗮𝗴𝗲 <b>: {}</b>"""
 
-    CAPTION = """<b>📂 ғɪʟᴇɴᴀᴍᴇ : {file_name}
+    CAPTION = """<b>{file_name}
 
-<b>⚙️ sɪᴢᴇ : {file_size}</b>""" 
+📦 Size : {file_size}
+
+━━━━━━━━━━━━━━
+🤖 @maan_file_store_BOT</b>
+"""
 
     IMDB_TEMPLATE_TXT = """
 <b>Query: {qurey}
