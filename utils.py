@@ -25,29 +25,33 @@ def format_filename(name):
 
     import re
 
-    title = name
-
     year = re.search(r'\b(19|20)\d{2}\b', name)
-    season = re.search(r'S(\d{1,2})', name, re.I)
-    episode = re.search(r'E(\d{1,2})', name, re.I)
+
+    season = re.search(r'(?:S|Season[\s._-]*)(\d{1,2})', name, re.I)
+    episode = re.search(r'(?:E|Episode[\s._-]*)(\d{1,3})', name, re.I)
+
     quality = re.search(r'(2160p|1440p|1080p|720p|480p|360p)', name, re.I)
 
     languages = []
 
     for lang in [
-        "Hindi", "English", "Tamil", "Telugu",
-        "Malayalam", "Kannada", "Japanese",
-        "Korean", "Dual Audio", "Multi Audio"
+        "Hindi",
+        "English",
+        "Tamil",
+        "Telugu",
+        "Malayalam",
+        "Kannada",
+        "Japanese",
+        "Korean"
     ]:
         if re.search(lang, name, re.I):
             languages.append(lang)
 
-    title = re.sub(
-        r'\b(19|20)\d{2}\b.*',
-        '',
-        title,
+    title = re.split(
+        r'(?:S\d{1,2}E\d{1,3}|S\d{1,2}|Season[\s._-]*\d{1,2}|Episode[\s._-]*\d{1,3}|\b(19|20)\d{2}\b|2160p|1440p|1080p|720p|480p)',
+        name,
         flags=re.I
-    )
+    )[0]
 
     title = title.replace(".", " ")
     title = title.replace("_", " ")
