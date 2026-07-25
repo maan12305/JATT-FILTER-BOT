@@ -25,15 +25,35 @@ def format_filename(name):
 
     import re
 
+    # Year
     year = re.search(r'\b(19|20)\d{2}\b', name)
 
+    # Season
     season = re.search(r'(?:S|Season[\s._-]*)(\d{1,2})', name, re.I)
-    episode = re.search(r'(?:E|Episode[\s._-]*)(\d{1,3})', name, re.I)
 
-    quality = re.search(r'(2160p|1440p|1080p|720p|480p|360p)', name, re.I)
+    # Episode Range (E01 - E02)
+    episode_range = re.search(
+        r'\[\s*E(\d{1,3})\s*[-–]\s*E(\d{1,3})\s*\]',
+        name,
+        re.I
+    )
 
+    # Single Episode
+    episode = re.search(
+        r'(?:S\d{1,2}\s*E|S\d{1,2}[\s._-]*Ep|Episode[\s._-]*|Ep[\s._-]*|E)(\d{1,3})',
+        name,
+        re.I
+    )
+
+    # Quality
+    quality = re.search(
+        r'(2160p|1440p|1080p|720p|480p|360p)',
+        name,
+        re.I
+    )
+
+    # Languages
     languages = []
-
     for lang in [
         "Hindi",
         "English",
@@ -41,21 +61,24 @@ def format_filename(name):
         "Telugu",
         "Malayalam",
         "Kannada",
+        "Korean",
         "Japanese",
-        "Korean"
+        "Punjabi",
+        "Bengali",
+        "Marathi",
+        "Gujarati"
     ]:
-        if re.search(lang, name, re.I):
+        if re.search(rf'\b{lang}\b', name, re.I):
             languages.append(lang)
 
+    # Title
     title = re.split(
-        r'(?:S\d{1,2}E\d{1,3}|S\d{1,2}|Season[\s._-]*\d{1,2}|Episode[\s._-]*\d{1,3}|\b(19|20)\d{2}\b|2160p|1440p|1080p|720p|480p)',
+        r'(\(|S\d{1,2}|Season[\s._-]*\d{1,2}|2160p|1440p|1080p|720p|480p|360p)',
         name,
         flags=re.I
     )[0]
 
-    title = title.replace(".", " ")
-    title = title.replace("_", " ")
-    title = title.strip()
+    title = title.replace(".", " ").replace("_", " ").strip()
 
     caption = f"🎬 {title}\n\n"
 
@@ -63,19 +86,21 @@ def format_filename(name):
         caption += f"📅 Year : {year.group()}\n"
 
     if season:
-        caption += f"📺 Season : {season.group(1)}\n"
+        caption += f"📺 Season : {int(season.group(1))}\n"
 
-    if episode:
-        caption += f"🎞 Episode : {episode.group(1)}\n"
+    if episode_range:
+        caption += f"🎞 Episodes : {int(episode_range.group(1))} - {int(episode_range.group(2))}\n"
+    elif episode:
+        caption += f"🎞 Episode : {int(episode.group(1))}\n"
 
     if quality:
         caption += f"🎥 Quality : {quality.group()}\n"
 
     if languages:
-        caption += f"🌍 Language : {' • '.join(languages)}\n"
+        caption += f"🌍 Language : {' • '.join(dict.fromkeys(languages))}\n"
 
     return caption
-
+    
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 join_db = JoinReqs
