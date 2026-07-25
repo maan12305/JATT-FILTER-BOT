@@ -661,7 +661,7 @@ async def send_all(bot, userid, files, ident, chat_id, user_name, query):
                 f_caption = file["caption"]
                 title = file["file_name"]
                 size = get_size(file["file_size"])
-                pretty_name = format_filename(title)
+                pretty_name = title
 
                 if CUSTOM_FILE_CAPTION:
                     try:
