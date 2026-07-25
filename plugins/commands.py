@@ -499,13 +499,7 @@ async def start(client, message):
             f_caption=files1["caption"]
             if CUSTOM_FILE_CAPTION:
                 try:
-                    pretty_name = format_filename(title)
-
-                    f_caption = CUSTOM_FILE_CAPTION.format(
-                        file_name=pretty_name,
-                        file_size='' if size is None else size,
-                        file_caption='' if f_caption is None else f_caption
-                        )
+                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
                 except:
                     f_caption=f_caption
             if f_caption is None:
@@ -645,15 +639,8 @@ async def start(client, message):
             f_caption = f" <code>{title}</code>"
             if CUSTOM_FILE_CAPTION:
                 try:
-                    pretty_name = format_filename(title)
-
-                    f_caption = CUSTOM_FILE_CAPTION.format(
-                        file_name=pretty_name,
-                        file_size='' if size is None else size,
-                        file_caption=''
-                    )
-                except Exception as e:
-                    logger.exception(e)
+                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='')
+                except:
                     return
             await msg.edit_caption(caption=f_caption)
             btn = [[InlineKeyboardButton("✅ ɢᴇᴛ ғɪʟᴇ ᴀɢᴀɪɴ ✅", callback_data=f'del#{file_id}')]]
@@ -689,20 +676,13 @@ async def start(client, message):
         return await message.reply('No such file exist.')
     files = files_
     title = files["file_name"]
-    size = get_size(files["file_size"])
-    f_caption = files["caption"]
-
+    size=get_size(files["file_size"])
+    f_caption=files["caption"]
     if CUSTOM_FILE_CAPTION:
         try:
-            pretty_name = format_filename(title)
-
-            f_caption = CUSTOM_FILE_CAPTION.format(
-                file_name=pretty_name,
-                file_size='' if size is None else size,
-                file_caption='' if f_caption is None else f_caption
-            )
-        except Exception as e:
-            logger.exception(e)
+            f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
+        except:
+            f_caption=f_caption
     if f_caption is None:
         f_caption = f" {' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('@'), files['file_name'].split()))}"
     if not await db.has_premium_access(message.from_user.id):
