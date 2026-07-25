@@ -676,10 +676,20 @@ async def send_all(bot, userid, files, ident, chat_id, user_name, query):
                 if f_caption is None:
                     f_caption = f"{title}"
 
-                f_caption = re.sub(r'\[@[A-Za-z0-9_]+\]', '', f_caption)
-                f_caption = re.sub(r'(?i)\b(join|follow|subscribe)\b\s*[:-]?\s*@\w+', '', f_caption)
-                f_caption = re.sub(r'@\w+', '', f_caption)
-                f_caption = re.sub(r'\n\s*\n+', '\n', f_caption).strip()
+                # Remove complete lines containing Telegram usernames
+                f_caption = re.sub(
+                    r'^.*@\w+.*\n?',
+                    '',
+                    f_caption,
+                    flags=re.MULTILINE
+                )
+
+                # Remove extra blank lines
+                f_caption = re.sub(
+                    r'\n\s*\n+',
+                    '\n\n',
+                    f_caption
+                ).strip()
 
                 print("CUSTOM_FILE_CAPTION =", CUSTOM_FILE_CAPTION)
                 print("Original Caption =", file["caption"])
