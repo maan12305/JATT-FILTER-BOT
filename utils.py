@@ -19,103 +19,22 @@ from database.join_reqs import JoinReqs
 from bs4 import BeautifulSoup
 from shortzy import Shortzy
 
-def format_filename(name):
-    if not name:
-        return ""
+import re
 
-    import re
+def remove_channel_usernames(caption):
+    if not caption:
+        return caption
 
-    # Year
-    year = re.search(r'\b(?:19|20)\d{2}\b', name)
+    # Remove @username only
+    caption = re.sub(r'@[A-Za-z0-9_]+', '', caption)
 
-    # Season
-    season = re.search(
-        r'(?:S(?:eason)?[\s._-]*0?(\d{1,2})|\bSeason[\s._-]*(\d{1,2}))',
-        name,
-        re.I
-    )
+    # Remove extra spaces before newline
+    caption = re.sub(r'[ \t]+\n', '\n', caption)
 
-    # Episode Range
-    episode_range = re.search(
-        r'[\(\[]?\s*(?:E|EP|Ep|Episode)\s*[-._ ]*0?(\d{1,3})\s*[-–]\s*(?:E|EP|Ep|Episode)?\s*[-._ ]*0?(\d{1,3})\s*[\)\]]?',
-        name,
-        re.I
-    )
+    # Remove multiple empty lines
+    caption = re.sub(r'\n{3,}', '\n\n', caption)
 
-    # Single Episode
-    episode = re.search(
-        r'(?:E|EP|Ep|Episode)\s*[-._ ]*0?(\d{1,3})',
-        name,
-        re.I
-    )
-
-    # Quality
-    quality = re.search(
-        r'(2160p|1440p|1080p|720p|480p|360p|4K)',
-        name,
-        re.I
-    )
-
-    # Languages
-    language_patterns = {
-        "Hindi": r"Hindi|Hin\b",
-        "English": r"English|Eng\b",
-        "Tamil": r"Tamil|Tam\b",
-        "Telugu": r"Telugu|Tel\b",
-        "Malayalam": r"Malayalam|Mal\b",
-        "Kannada": r"Kannada|Kan\b",
-        "Korean": r"Korean|Kor\b",
-        "Japanese": r"Japanese|Jap\b",
-        "Chinese": r"Chinese|Chi\b",
-        "Punjabi": r"Punjabi",
-        "Bengali": r"Bengali|Bangla",
-        "Marathi": r"Marathi",
-        "Gujarati": r"Gujarati"
-    }
-
-    languages = []
-
-    for lang, pattern in language_patterns.items():
-        if re.search(pattern, name, re.I):
-            languages.append(lang)
-
-    # Title
-    title = re.sub(
-        r'\s*\(\d{4}\).*?$'
-        r'|\s+S\d{1,2}.*?$'
-        r'|\s+Season[\s._-]*\d{1,2}.*?$'
-        r'|\s+(2160p|1440p|1080p|720p|480p|360p|4K).*?$',
-        '',
-        name,
-        flags=re.I
-    )
-
-    title = re.sub(r'\.(mkv|mp4|avi|mov)$', '', title, flags=re.I)
-    title = title.replace(".", " ")
-    title = title.replace("_", " ")
-    title = re.sub(r"\s+", " ", title).strip(" -_")
-
-    caption = f"🎬 {title}\n\n"
-
-    if year:
-        caption += f"📅 Year : {year.group()}\n"
-
-    if season:
-        season_no = season.group(1) or season.group(2)
-        caption += f"📺 Season : {int(season_no)}\n"
-
-    if episode_range:
-        caption += f"🎞 Episodes : {int(episode_range.group(1))} - {int(episode_range.group(2))}\n"
-    elif episode:
-        caption += f"🎞 Episode : {int(episode.group(1))}\n"
-
-    if quality:
-        caption += f"🎥 Quality : {quality.group().upper()}\n"
-
-    if languages:
-        caption += f"🌍 Language : {' • '.join(dict.fromkeys(languages))}\n"
-
-    return caption
+    return caption.strip()
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
