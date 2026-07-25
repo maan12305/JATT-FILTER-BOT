@@ -29,56 +29,70 @@ def format_filename(name):
     year = re.search(r'\b(19|20)\d{2}\b', name)
 
     # Season
-    season = re.search(r'(?:S|Season[\s._-]*)(\d{1,2})', name, re.I)
+    season = re.search(
+        r'(?:S(?:eason)?[\s._-]*0?(\d{1,2})|\bSeason[\s._-]*(\d{1,2}))',
+        name,
+        re.I
+    )
 
-    # Episode Range (E01 - E02)
+    # Episode Range
     episode_range = re.search(
-        r'\[\s*E(\d{1,3})\s*[-–]\s*E(\d{1,3})\s*\]',
+        r'[\(\[]?(?:E|EP|Episode)[\s._-]*0?(\d{1,3})\s*[-–]\s*(?:E|EP|Episode)?[\s._-]*0?(\d{1,3})[\)\]]?',
         name,
         re.I
     )
 
     # Single Episode
     episode = re.search(
-        r'(?:S\d{1,2}\s*E|S\d{1,2}[\s._-]*Ep|Episode[\s._-]*|Ep[\s._-]*|E)(\d{1,3})',
+        r'(?:E|EP|Episode)[\s._-]*0?(\d{1,3})',
         name,
         re.I
     )
 
     # Quality
     quality = re.search(
-        r'(2160p|1440p|1080p|720p|480p|360p)',
+        r'(2160p|1440p|1080p|720p|480p|360p|4K)',
         name,
         re.I
     )
 
     # Languages
+    language_patterns = {
+        "Hindi": r"Hindi|Hin\b",
+        "English": r"English|Eng\b",
+        "Tamil": r"Tamil|Tam\b",
+        "Telugu": r"Telugu|Tel\b",
+        "Malayalam": r"Malayalam|Mal\b",
+        "Kannada": r"Kannada|Kan\b",
+        "Korean": r"Korean|Kor\b",
+        "Japanese": r"Japanese|Jap\b",
+        "Chinese": r"Chinese|Chi\b",
+        "Punjabi": r"Punjabi",
+        "Bengali": r"Bengali|Bangla",
+        "Marathi": r"Marathi",
+        "Gujarati": r"Gujarati"
+    }
+
     languages = []
-    for lang in [
-        "Hindi",
-        "English",
-        "Tamil",
-        "Telugu",
-        "Malayalam",
-        "Kannada",
-        "Korean",
-        "Japanese",
-        "Punjabi",
-        "Bengali",
-        "Marathi",
-        "Gujarati"
-    ]:
-        if re.search(rf'\b{lang}\b', name, re.I):
+
+    for lang, pattern in language_patterns.items():
+        if re.search(pattern, name, re.I):
             languages.append(lang)
 
-    # Title
-    title = re.split(
-        r'(\(|S\d{1,2}|Season[\s._-]*\d{1,2}|2160p|1440p|1080p|720p|480p|360p)',
+    # Remove everything after Year / Season / Quality
+    title = re.sub(
+        r'\s*\(\d{4}\).*?$'
+        r'|\s+S\d{1,2}.*?$'
+        r'|\s+Season[\s._-]*\d{1,2}.*?$'
+        r'|\s+(2160p|1440p|1080p|720p|480p|360p|4K).*?$',
+        '',
         name,
         flags=re.I
-    )[0]
+    )
 
-    title = title.replace(".", " ").replace("_", " ").strip()
+    title = title.replace(".", " ")
+    title = title.replace("_", " ")
+    title = re.sub(r"\s+", " ", title).strip()
 
     caption = f"🎬 {title}\n\n"
 
@@ -86,7 +100,8 @@ def format_filename(name):
         caption += f"📅 Year : {year.group()}\n"
 
     if season:
-        caption += f"📺 Season : {int(season.group(1))}\n"
+        season_no = season.group(1) or season.group(2)
+        caption += f"📺 Season : {int(season_no)}\n"
 
     if episode_range:
         caption += f"🎞 Episodes : {int(episode_range.group(1))} - {int(episode_range.group(2))}\n"
@@ -94,13 +109,13 @@ def format_filename(name):
         caption += f"🎞 Episode : {int(episode.group(1))}\n"
 
     if quality:
-        caption += f"🎥 Quality : {quality.group()}\n"
+        caption += f"🎥 Quality : {quality.group().upper()}\n"
 
     if languages:
         caption += f"🌍 Language : {' • '.join(dict.fromkeys(languages))}\n"
 
     return caption
-    
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 join_db = JoinReqs
