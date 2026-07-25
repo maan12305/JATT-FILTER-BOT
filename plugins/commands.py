@@ -646,8 +646,15 @@ async def start(client, message):
             f_caption = f" <code>{title}</code>"
             if CUSTOM_FILE_CAPTION:
                 try:
-                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='')
-                except:
+                    pretty_name = format_filename(title)
+
+                    f_caption = CUSTOM_FILE_CAPTION.format(
+                        file_name=pretty_name,
+                        file_size='' if size is None else size,
+                        file_caption=''
+                    )
+                except Exception as e:
+                    logger.exception(e)
                     return
             await msg.edit_caption(caption=f_caption)
             btn = [[InlineKeyboardButton("✅ ɢᴇᴛ ғɪʟᴇ ᴀɢᴀɪɴ ✅", callback_data=f'del#{file_id}')]]
