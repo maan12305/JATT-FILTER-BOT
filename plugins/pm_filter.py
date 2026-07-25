@@ -1313,13 +1313,17 @@ async def cb_handler(client: Client, query: CallbackQuery):
         size = get_size(files["file_size"])
         f_caption = files["caption"]
         settings = await get_settings(query.message.chat.id)
-        if CUSTOM_FILE_CAPTION:
-            try:
-                f_caption = CUSTOM_FILE_CAPTION.format(file_name='' if title is None else title,
-                                                       file_size='' if size is None else size,
-                                                       file_caption='' if f_caption is None else f_caption)
-            except Exception as e:
-                logger.exception(e)
+            if CUSTOM_FILE_CAPTION:
+                try:
+                    pretty_name = format_filename(title)
+
+                    f_caption = CUSTOM_FILE_CAPTION.format(
+                        file_name=pretty_name,
+                        file_size='' if size is None else size,
+                        file_caption='' if f_caption is None else f_caption
+                    )
+                except Exception as e:
+                    logger.exception(e)
             f_caption = f_caption
         if f_caption is None:
             f_caption = f"{files['file_name']}"
@@ -1400,13 +1404,17 @@ async def cb_handler(client: Client, query: CallbackQuery):
         size = get_size(files['file_size'])
         f_caption = files['caption']
         settings = await get_settings(query.message.chat.id)
-        if CUSTOM_FILE_CAPTION:
-            try:
-                f_caption = CUSTOM_FILE_CAPTION.format(file_name='' if title is None else title,
-                                                       file_size='' if size is None else size,
-                                                       file_caption='' if f_caption is None else f_caption)
-            except Exception as e:
-                logger.exception(e)
+            if CUSTOM_FILE_CAPTION:
+                try:
+                    pretty_name = format_filename(title)
+
+                    f_caption = CUSTOM_FILE_CAPTION.format(
+                        file_name=pretty_name,
+                        file_size='' if size is None else size,
+                        file_caption='' if f_caption is None else f_caption
+                    )
+                except Exception as e:
+                    logger.exception(e)
             f_caption = f_caption
         if f_caption is None:
             f_caption = f"{files['file_name']}"
