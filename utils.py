@@ -26,7 +26,7 @@ def format_filename(name):
     import re
 
     # Year
-    year = re.search(r'\b(19|20)\d{2}\b', name)
+    year = re.search(r'\b(?:19|20)\d{2}\b', name)
 
     # Season
     season = re.search(
@@ -37,14 +37,14 @@ def format_filename(name):
 
     # Episode Range
     episode_range = re.search(
-        r'[\(\[]?(?:E|EP|Episode)[\s._-]*0?(\d{1,3})\s*[-–]\s*(?:E|EP|Episode)?[\s._-]*0?(\d{1,3})[\)\]]?',
+        r'[\(\[]?\s*(?:E|EP|Ep|Episode)\s*[-._ ]*0?(\d{1,3})\s*[-–]\s*(?:E|EP|Ep|Episode)?\s*[-._ ]*0?(\d{1,3})\s*[\)\]]?',
         name,
         re.I
     )
 
     # Single Episode
     episode = re.search(
-        r'(?:E|EP|Episode)[\s._-]*0?(\d{1,3})',
+        r'(?:E|EP|Ep|Episode)\s*[-._ ]*0?(\d{1,3})',
         name,
         re.I
     )
@@ -79,7 +79,7 @@ def format_filename(name):
         if re.search(pattern, name, re.I):
             languages.append(lang)
 
-    # Remove everything after Year / Season / Quality
+    # Title
     title = re.sub(
         r'\s*\(\d{4}\).*?$'
         r'|\s+S\d{1,2}.*?$'
@@ -90,9 +90,10 @@ def format_filename(name):
         flags=re.I
     )
 
+    title = re.sub(r'\.(mkv|mp4|avi|mov)$', '', title, flags=re.I)
     title = title.replace(".", " ")
     title = title.replace("_", " ")
-    title = re.sub(r"\s+", " ", title).strip()
+    title = re.sub(r"\s+", " ", title).strip(" -_")
 
     caption = f"🎬 {title}\n\n"
 
