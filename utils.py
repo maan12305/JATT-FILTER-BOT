@@ -19,23 +19,6 @@ from database.join_reqs import JoinReqs
 from bs4 import BeautifulSoup
 from shortzy import Shortzy
 
-import re
-
-def remove_channel_usernames(caption):
-    if not caption:
-        return caption
-
-    # Remove @username only
-    caption = re.sub(r'@[A-Za-z0-9_]+', '', caption)
-
-    # Remove extra spaces before newline
-    caption = re.sub(r'[ \t]+\n', '\n', caption)
-
-    # Remove multiple empty lines
-    caption = re.sub(r'\n{3,}', '\n\n', caption)
-
-    return caption.strip()
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 join_db = JoinReqs
@@ -661,12 +644,10 @@ async def send_all(bot, userid, files, ident, chat_id, user_name, query):
                 f_caption = file["caption"]
                 title = file["file_name"]
                 size = get_size(file["file_size"])
-                pretty_name = title
-
                 if CUSTOM_FILE_CAPTION:
                     try:
                         f_caption = CUSTOM_FILE_CAPTION.format(
-                            file_name=pretty_name,
+                            file_name='' if title is None else title,
                             file_size='' if size is None else size,
                             file_caption='' if f_caption is None else f_caption
                         )
@@ -676,20 +657,10 @@ async def send_all(bot, userid, files, ident, chat_id, user_name, query):
                 if f_caption is None:
                     f_caption = f"{title}"
 
-                # Remove complete lines containing Telegram usernames
-                f_caption = re.sub(
-                    r'^.*@\w+.*\n?',
-                    '',
-                    f_caption,
-                    flags=re.MULTILINE
-                )
-
-                # Remove extra blank lines
-                f_caption = re.sub(
-                    r'\n\s*\n+',
-                    '\n\n',
-                    f_caption
-                ).strip()
+                f_caption = re.sub(r'\[@[A-Za-z0-9_]+\]', '', f_caption)
+                f_caption = re.sub(r'(?i)\b(join|follow|subscribe)\b\s*[:-]?\s*@\w+', '', f_caption)
+                f_caption = re.sub(r'@\w+', '', f_caption)
+                f_caption = re.sub(r'\n\s*\n+', '\n', f_caption).strip()
 
                 print("CUSTOM_FILE_CAPTION =", CUSTOM_FILE_CAPTION)
                 print("Original Caption =", file["caption"])
