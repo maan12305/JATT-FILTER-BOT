@@ -24,15 +24,8 @@ async def save_file(media):
     """Save file in the database."""
     
     file_id = unpack_new_file_id(media.file_id)
-
-# Use first line of caption if available
-if media.caption:
-    first_line = str(media.caption).split("\n")[0]
-    file_name = clean_file_name(first_line)
-else:
     file_name = clean_file_name(media.file_name)
-
-new_file_name = f" {file_name}"
+    new_file_name = f" {file_name}"
     
     file = {
         'file_id': file_id,
@@ -64,31 +57,9 @@ new_file_name = f" {file_name}"
             print("Your Current File Database Is Full, Turn On Multiple Database Feature And Add Second File Mongodb To Save File.")
 
 def clean_file_name(file_name):
-    file_name = str(file_name)
-
-    # Remove HTML tags
-    file_name = re.sub(r'<[^>]+>', '', file_name)
-
-    # Remove Telegram usernames
-    file_name = re.sub(r'@\w+', '', file_name)
-
-    # Remove Telegram links
-    file_name = re.sub(r'https?://t\.me/\S+|t\.me/\S+', '', file_name)
-
-    # Remove promotional text
-    file_name = re.sub(
-        r'(?i)(latest uploads?|bot updates?|join.*?|follow.*?|powered by.*?|uploaded by.*?)',
-        '',
-        file_name
-    )
-
-    # Replace separators (keep "-" because of E01-E06)
-    file_name = re.sub(r'[_.+]', ' ', file_name)
-
-    # Remove extra spaces
-    file_name = re.sub(r'\s+', ' ', file_name).strip()
-
-    return file_name
+    """Clean and format the file name."""
+    file_name = re.sub(r"(_|\-|\.|\+)", " ", str(file_name)) 
+    unwanted_chars = ['[', ']', '(', ')', '{', '}']
     
     for char in unwanted_chars:
         file_name = file_name.replace(char, '')
@@ -97,6 +68,10 @@ def clean_file_name(file_name):
     new_file_name = add_space_between_e_and_number(old_file_name)
     return new_file_name
 
+def add_space_between_e_and_number(input_string):
+    # Use regex to find 'e' or 'E' followed by a digit and add a space
+    output_string = re.sub(r'(e|E)([0-9])', r'1 2', input_string)
+    return output_string
     
 def is_file_already_saved(file_id, file_name):
     """Check if the file is already saved in either collection."""
