@@ -58,15 +58,29 @@ async def save_file(media):
 
 def clean_file_name(file_name):
     """Clean and format the file name."""
-    file_name = re.sub(r"(_|\-|\.|\+)", " ", str(file_name)) 
-    unwanted_chars = ['[', ']', '(', ')', '{', '}']
-    
-    for char in unwanted_chars:
+
+    file_name = str(file_name)
+
+    # Remove HTML tags
+    file_name = re.sub(r'<[^>]+>', '', file_name)
+
+    # Remove @usernames
+    file_name = re.sub(r'@\w+', '', file_name)
+
+    # Remove links
+    file_name = re.sub(r'(https?://\S+|www\.\S+|t\.me/\S+)', '', file_name)
+
+    # Replace symbols with space
+    file_name = re.sub(r"(_|\-|\.|\+)", " ", file_name)
+
+    # Remove brackets
+    for char in ['[', ']', '(', ')', '{', '}']:
         file_name = file_name.replace(char, '')
-        
-    old_file_name = ' '.join(filter(lambda x: not x.startswith('@') and not x.startswith('http') and not x.startswith('www.') and not x.startswith('t.me'), file_name.split()))
-    new_file_name = add_space_between_e_and_number(old_file_name)
-    return new_file_name
+
+    # Remove extra spaces
+    file_name = ' '.join(file_name.split())
+
+    return file_name
     
 def is_file_already_saved(file_id, file_name):
     """Check if the file is already saved in either collection."""
