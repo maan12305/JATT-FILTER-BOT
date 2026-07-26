@@ -496,7 +496,7 @@ async def start(client, message):
             files1 = await get_file_details(file_id)
             title = files1["file_name"]
             size=get_size(files1["file_size"])
-            f_caption=files1["caption"]
+            f_caption = clean_caption(files1["caption"])
             if CUSTOM_FILE_CAPTION:
                 try:
                     f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
@@ -636,7 +636,7 @@ async def start(client, message):
             file = getattr(msg, filetype.value)
             title = file.file_name
             size=get_size(file.file_size)
-            f_caption = f" <code>{title}</code>"
+            f_caption = f"<code>{clean_caption(title)}</code>"
             if CUSTOM_FILE_CAPTION:
                 try:
                     f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='')
@@ -677,7 +677,7 @@ async def start(client, message):
     files = files_
     title = files["file_name"]
     size=get_size(files["file_size"])
-    f_caption=files["caption"]
+    f_caption = clean_caption(files["caption"])
     if CUSTOM_FILE_CAPTION:
         try:
             f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
