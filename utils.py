@@ -26,25 +26,25 @@ def clean_caption(caption):
         return ""
 
     # Remove [@Channel]
-    caption = re.sub(r'\[@[^\]]+\]', '', caption, flags=re.I)
+    caption = re.sub(r'\[@.*?\]', '', caption, flags=re.I)
 
-    # Remove "Join @Channel"
-    caption = re.sub(r'(?im)^.*join\s+@\w+.*$', '', caption)
+    # Remove lines containing Latest Uploads
+    caption = re.sub(r'(?im)^.*latest\s*uploads?.*$\n?', '', caption)
 
-    # Remove "Latest Uploads:@Channel"
-    caption = re.sub(r'(?im)^.*latest\s+uploads?\s*:?\s*@\w+.*$', '', caption)
+    # Remove lines containing BOT Updates
+    caption = re.sub(r'(?im)^.*bot\s*updates?.*$\n?', '', caption)
 
-    # Remove "BOT Updates:@Channel"
-    caption = re.sub(r'(?im)^.*bot\s+updates?\s*:?\s*@\w+.*$', '', caption)
+    # Remove lines containing Join @
+    caption = re.sub(r'(?im)^.*join\s+@.*$\n?', '', caption)
 
-    # Remove any remaining standalone @mentions
-    caption = re.sub(r'(?<!\S)@\w+', '', caption)
+    # Remove any remaining @mentions
+    caption = re.sub(r'@\S+', '', caption)
 
     # Remove only square brackets
     caption = caption.replace("[", "").replace("]", "")
 
-    # Remove empty lines
-    caption = re.sub(r'\n\s*\n+', '\n', caption)
+    # Remove extra blank lines
+    caption = re.sub(r'\n\s*\n+', '\n\n', caption)
 
     # Remove extra spaces
     caption = re.sub(r'[ \t]+', ' ', caption)
