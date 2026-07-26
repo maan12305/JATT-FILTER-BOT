@@ -46,6 +46,9 @@ def clean_caption(caption):
     # Remove extra blank lines
     caption = re.sub(r'\n\s*\n+', '\n\n', caption)
 
+    # Remove all URLs
+    caption = re.sub(r'https?://\S+|www\.\S+|\b\S+\.(?:com|net|org|io|co|in|me|tv|xyz|site|cc|info|biz|live|link|to|app)\S*', '', caption, flags=re.I)
+
     # Remove extra spaces
     caption = re.sub(r'[ \t]+', ' ', caption)
 
