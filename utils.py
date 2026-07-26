@@ -19,41 +19,6 @@ from database.join_reqs import JoinReqs
 from bs4 import BeautifulSoup
 from shortzy import Shortzy
 
-import re
-
-def clean_caption(caption):
-    if not caption:
-        return ""
-
-    # Remove [@Channel]
-    caption = re.sub(r'\[@.*?\]', '', caption, flags=re.I)
-
-    # Remove lines containing Latest Uploads
-    caption = re.sub(r'(?im)^.*latest\s*uploads?.*$\n?', '', caption)
-
-    # Remove lines containing BOT Updates
-    caption = re.sub(r'(?im)^.*bot\s*updates?.*$\n?', '', caption)
-
-    # Remove lines containing Join @
-    caption = re.sub(r'(?im)^.*join\s+@.*$\n?', '', caption)
-
-    # Remove any remaining @mentions
-    caption = re.sub(r'@\S+', '', caption)
-
-    # Remove only square brackets
-    caption = caption.replace("[", "").replace("]", "")
-
-    # Remove extra blank lines
-    caption = re.sub(r'\n\s*\n+', '\n\n', caption)
-
-    # Remove all URLs
-    caption = re.sub(r'https?://\S+|www\.\S+|\b\S+\.(?:com|net|org|io|co|in|me|tv|xyz|site|cc|info|biz|live|link|to|app)\S*', '', caption, flags=re.I)
-
-    # Remove extra spaces
-    caption = re.sub(r'[ \t]+', ' ', caption)
-
-    return caption.strip()
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 join_db = JoinReqs
