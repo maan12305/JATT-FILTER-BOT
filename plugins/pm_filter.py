@@ -1311,7 +1311,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         files = files_
         title = files["file_name"]
         size = get_size(files["file_size"])
-        f_caption = files["caption"]
+        f_caption = clean_caption(files["caption"])
         settings = await get_settings(query.message.chat.id)
         if CUSTOM_FILE_CAPTION:
             try:
@@ -1398,7 +1398,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         files = files_
         title = files['file_name']
         size = get_size(files['file_size'])
-        f_caption = files['caption']
+        f_caption = clean_caption(files['caption'])
         settings = await get_settings(query.message.chat.id)
         if CUSTOM_FILE_CAPTION:
             try:
