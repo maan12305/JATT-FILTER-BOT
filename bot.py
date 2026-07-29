@@ -17,7 +17,6 @@ from pyrogram import Client, idle
 from database.users_chats_db import db
 from info import *
 from utils import temp
-from plugins.premium_reminder import premium_reminder
 from typing import Union, Optional, AsyncGenerator
 from Script import script 
 from datetime import date, datetime 
@@ -41,8 +40,6 @@ async def start():
     await db.verify.create_index("expiry_time",expireAfterSeconds=0)
     bot_info = await TechVJBot.get_me()
     await initialize_clients()
-    
-    asyncio.create_task(premium_reminder())
 
     for name in files:
         with open(name) as a:
