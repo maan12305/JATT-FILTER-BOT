@@ -1339,11 +1339,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 return
 
         except UserIsBlocked:
-            await query.answer('Uɴʙʟᴏᴄᴋ ᴛʜᴇ ʙᴏᴛ ᴍᴀʜɴ !', show_alert=True)
-        except PeerIdInvalid:
-            await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start={ident}_{file_id}")
+            pass
+
+        except PeerIdInvalid as e:
+            logger.exception(e)
+
         except Exception as e:
-            await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start={ident}_{file_id}")
+            logger.exception(e)
             
     elif query.data.startswith("sendfiles"):
         clicked = query.from_user.id
