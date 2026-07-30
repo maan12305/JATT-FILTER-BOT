@@ -1328,7 +1328,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if f_caption is None:
             f_caption = f"{files['file_name']}"
 
-          try:
+        try:
             if settings['is_shortlink'] and not await db.has_premium_access(query.from_user.id):
                 temp.SHORT[clicked] = query.message.chat.id
                 try:
