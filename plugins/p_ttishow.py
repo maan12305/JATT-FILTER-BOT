@@ -4,6 +4,7 @@
 
 import os, string, logging, random, asyncio, time, datetime, re, sys, json, base64
 from Script import script
+from pyrogram.errors import ChatWriteForbidden
 from pyrogram import Client, filters, enums
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import *
@@ -47,10 +48,13 @@ async def save_group(bot, message):
             InlineKeyboardButton("Bᴏᴛ Oᴡɴᴇʀ", url=OWNER_LNK)
         ]]
         reply_markup=InlineKeyboardMarkup(buttons)
-        await message.reply_text(
-            text=f"<b>Thankyou For Adding Me In {message.chat.title} ❣️\n\nIf you have any questions & doubts about using me contact support.</b>",
-            reply_markup=reply_markup
-        )
+        try:
+            await message.reply_text(
+                text=f"<b>Thankyou For Adding Me In {message.chat.title} ❣️\n\nIf you have any questions & doubts about using me contact support.</b>",
+                reply_markup=reply_markup
+            )
+        except ChatWriteForbidden:
+            return
     else:
         settings = await get_settings(message.chat.id)
         if settings["welcome"]:
@@ -66,11 +70,14 @@ async def save_group(bot, message):
                 ],[
                     InlineKeyboardButton("Bᴏᴛ Oᴡɴᴇʀ", url=OWNER_LNK)
                 ]]
-                temp.MELCOW['welcome'] = await message.reply_text(
-                    text=(script.MELCOW_ENG.format(u.mention, message.chat.title)),
-                    reply_markup=InlineKeyboardMarkup(button),
-                    parse_mode=enums.ParseMode.HTML
-                )  
+                try:
+                    temp.MELCOW['welcome'] = await message.reply_text(
+                        text=(script.MELCOW_ENG.format(u.mention, message.chat.title)),
+                        reply_markup=InlineKeyboardMarkup(button),
+                        parse_mode=enums.ParseMode.HTML
+                    )
+                except ChatWriteForbidden:
+                    return
         if settings["auto_delete"]:
             await asyncio.sleep(600)
             await (temp.MELCOW['welcome']).delete()
