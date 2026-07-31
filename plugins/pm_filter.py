@@ -2455,21 +2455,31 @@ async def cb_handler(client: Client, query: CallbackQuery):
             parse_mode=enums.ParseMode.HTML
         )
     elif query.data.startswith("setgs"):
-        await query.answer()
         
         ident, set_type, status, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
 
         if str(grp_id) != str(grpid):
             await query.message.edit("Yᴏᴜʀ Aᴄᴛɪᴠᴇ Cᴏɴɴᴇᴄᴛɪᴏɴ Hᴀs Bᴇᴇɴ Cʜᴀɴɢᴇᴅ. Gᴏ Tᴏ /connections ᴀɴᴅ ᴄʜᴀɴɢᴇ ʏᴏᴜʀ ᴀᴄᴛɪᴠᴇ ᴄᴏɴɴᴇᴄᴛɪᴏɴ.")
-            return await query.answer(MSG_ALRT)
+            try:
+                await query.answer(MSG_ALRT)
+            except QueryIdInvalid:
+                pass
+            return
 
         if status == "True":
             await save_group_settings(grpid, set_type, False)
         else:
             settings = await get_settings(grpid)
-            if set_type == "is_shortlink" and not settings['shortlink']:
-                return await query.answer(text = "First Add Your Shortlink Url And Api By /shortlink Command, Then Turn Me On.", show_alert = True)
+            if set_type == "is_shortlink" and not settings["shortlink"]:
+                try:
+                    await query.answer(
+                        text="First Add Your Shortlink Url And Api By /shortlink Command, Then Turn Me On.",
+                        show_alert=True
+                    )
+                except QueryIdInvalid:
+                    pass
+                return
             await save_group_settings(grpid, set_type, True)
 
         settings = await get_settings(grpid)
