@@ -1052,7 +1052,11 @@ async def filter_qualities_cb_handler(client: Client, query: CallbackQuery):
 async def cb_handler(client: Client, query: CallbackQuery):
     print(query.data)
     if query.data == "close_data":
-        await query.message.delete()
+        try:
+            await query.message.delete()
+        except Exception:
+            pass
+        return
 
     elif query.data.startswith("uploaded#"):
         _, user_id, movie = query.data.split("#", 2)
@@ -1103,9 +1107,18 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await del_allg(query.message, 'gfilters')
         await query.answer("Done !")
         return
-    elif query.data == "gfiltersdeleteallcancel": 
-        await query.message.reply_to_message.delete()
-        await query.message.delete()
+    elif query.data == "gfiltersdeleteallcancel":
+        try:
+            if query.message.reply_to_message:
+                await query.message.reply_to_message.delete()
+        except Exception:
+            pass
+
+        try:
+            await query.message.delete()
+        except Exception:
+            pass
+
         await query.answer("Process Cancelled !")
         return
     elif query.data == "delallconfirm":
@@ -1146,17 +1159,30 @@ async def cb_handler(client: Client, query: CallbackQuery):
         chat_type = query.message.chat.type
 
         if chat_type == enums.ChatType.PRIVATE:
-            await query.message.reply_to_message.delete()
-            await query.message.delete()
+            try:
+                if query.message.reply_to_message:
+                    await query.message.reply_to_message.delete()
+            except Exception:
+                pass
+
+            try:
+                await query.message.delete()
+            except Exception:
+                pass
 
         elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
             grp_id = query.message.chat.id
             st = await client.get_chat_member(grp_id, userid)
             if (st.status == enums.ChatMemberStatus.OWNER) or (str(userid) in ADMINS):
-                await query.message.delete()
                 try:
-                    await query.message.reply_to_message.delete()
-                except:
+                    await query.message.delete()
+                except Exception:
+                    pass
+
+                try:
+                    if query.message.reply_to_message:
+                        await query.message.reply_to_message.delete()
+                except Exception:
                     pass
             else:
                 await query.answer("Tʜᴀᴛ's ɴᴏᴛ ғᴏʀ ʏᴏᴜ!!", show_alert=True)
