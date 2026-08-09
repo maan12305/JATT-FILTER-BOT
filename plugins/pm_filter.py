@@ -2636,7 +2636,16 @@ async def auto_filter(client, name, msg, reply_msg, ai_search, spoll=False):
 
             if settings is None:
                 settings = {
-                    "spell_check": False
+                    "button": True,
+                    "file_secure": False,
+                    "imdb": False,
+                    "spell_check": False,
+                    "auto_delete": False,
+                    "auto_ffilter": True,
+                    "max_btn": False,
+                    "is_shortlink": False,
+                    "fsub": None,
+                    "shortlink": False
                 }
     if not files:
         if settings["spell_check"]:
