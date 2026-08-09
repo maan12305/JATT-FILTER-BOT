@@ -524,7 +524,6 @@ async def filter_episodes_cb_handler(client: Client, query: CallbackQuery):
             show_alert=True
         )
         return
-
     search = search.replace(" ", "_")
     baal = lang in search
     if baal:
