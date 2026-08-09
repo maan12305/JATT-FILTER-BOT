@@ -61,9 +61,24 @@ async def give_filter(client, message):
             return
     if message.chat.id != SUPPORT_CHAT_ID:
         settings = await get_settings(message.chat.id)
+
+        if settings is None:
+            settings = {
+                "button": True,
+                "file_secure": False,
+                "imdb": False,
+                "spell_check": False,
+                "auto_delete": False,
+                "auto_ffilter": True,
+                "max_btn": False,
+                "is_shortlink": False,
+                "fsub": None,
+                "shortlink": False
+            }
+
         chatid = message.chat.id 
         user_id = message.from_user.id if message.from_user else 0
-        if settings['fsub'] != None:
+        if settings['fsub'] is not None:
             try:
                 btn = await pub_is_subscribed(client, message, settings['fsub'])
                 if btn:
@@ -77,6 +92,21 @@ async def give_filter(client, message):
         manual = await manual_filters(client, message)
         if manual == False:
             settings = await get_settings(message.chat.id)
+
+            if settings is None:
+                settings = {
+                    "button": True,
+                    "file_secure": False,
+                    "imdb": False,
+                    "spell_check": False,
+                    "auto_delete": False,
+                    "auto_ffilter": True,
+                    "max_btn": False,
+                    "is_shortlink": False,
+                    "fsub": None,
+                    "shortlink": False
+                }
+
             try:
                 if settings['auto_ffilter']:
                     ai_search = True
