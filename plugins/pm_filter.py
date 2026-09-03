@@ -175,7 +175,7 @@ No worries! Our movie search works only in the group. 🍿
                 [
                     InlineKeyboardButton(
                         "🔎 SEARCH MOVIES 🎬",
-                        url=https://t.me/maan_movies2
+                        url="https://t.me/maan_movies2"
                     )
                 ]
             ])
