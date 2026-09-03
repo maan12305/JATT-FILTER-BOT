@@ -4,7 +4,6 @@ from info import CHANNELS, MOVIE_UPDATE_CHANNEL
 from database.ia_filterdb import save_file
 from utils import get_poster
 import re
-from urllib.parse import quote
 
 media_filter = filters.document | filters.video
 
@@ -121,14 +120,12 @@ async def media(bot, message):
 **📀 Quality - {quality}**
 **🔊 Audio - {language}**
 """
-        movie_name = imdb.get("title", "Unknown")
-
         buttons = InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
                         "Get File 📂",
-                        url=f"https://t.me/maan_movies2?text={quote(movie_name)}"
+                        url=f"https://t.me/maan_file_store_BOT?start=search_{imdb.get('title').replace(' ', '_')}"
                     )
                 ]
             ]
