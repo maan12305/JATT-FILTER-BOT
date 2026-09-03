@@ -174,8 +174,7 @@ No worries! Our movie search works only in the group. 🍿
             reply_markup=InlineKeyboardMarkup([
                 [
                     InlineKeyboardButton(
-                        "🔎 SEARCH MOVIES 🎬",
-                        url="https://t.me/maan_movies2"
+                        "🔎 SEARCH MOVIES 🎬",url='https://t.me/maan_movies2'
                     )
                 ]
             ])
