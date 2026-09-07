@@ -137,7 +137,12 @@ async def pm_text(bot, message):
     if content.startswith("/") or content.startswith("#"):
         return
 
-    if PM_SEARCH:
+    # Check if the user has active premium access
+    is_premium = await db.has_premium_access(user_id)
+
+    # PM search is allowed for everyone when PM_SEARCH is True,
+    # otherwise only premium users can search in PM.
+    if PM_SEARCH or is_premium:
         ai_search = True
 
         reply_msg = await bot.send_message(
@@ -158,7 +163,7 @@ async def pm_text(bot, message):
         await bot.send_message(
             message.from_user.id,
             f"""
-<b>🚫 PRIVATE SEARCH IS DISABLED</b>
+<b>🚫 PRIVATE SEARCH IS ONLY FOR PREMIUM USERS</b>
 
 <b>🎬 Want to find a movie?</b>
 No worries! Our movie search works only in the group. 🍿
