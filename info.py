@@ -116,8 +116,8 @@ USE_CAPTION_FILTER = bool(environ.get('USE_CAPTION_FILTER', True))
 
 # Token Verification Info :
 VERIFY = bool(environ.get('VERIFY', True))
-VERIFY_SHORTLINK_URL = environ.get('VERIFY_SHORTLINK_URL', 'shortxlinks.com')
-VERIFY_SHORTLINK_API = environ.get('VERIFY_SHORTLINK_API', '49fa15ad012b810dc651b13fb12c8a03b6ccf4d6')
+VERIFY_SHORTLINK_URL = environ.get('VERIFY_SHORTLINK_URL', 'arolinks.com')
+VERIFY_SHORTLINK_API = environ.get('VERIFY_SHORTLINK_API', '5023358a107a769e710f7c68bf12b4dc2a5284b7')
 VERIFY_TUTORIAL = environ.get('VERIFY_TUTORIAL', 'https://t.me/Chat_With_Proffessor_bot')
 
 # If You Fill Second Shortner Then Bot Attach Both First And Second Shortner And Use It For Verify.
